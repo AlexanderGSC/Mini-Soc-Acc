@@ -73,8 +73,8 @@ Result: 50 * 50 = 2500
 >>>> calc 0xFA 0x11
 Result: 250 * 17 = 4250
 >>>> reboot
-
-🧠 Hardware/Software Co-Design
+```
+## 🧠 Hardware/Software Co-Design
 
 The accelerator is mapped to the CSR bus. The C firmware interacts with the hardware using the generated csr.h headers, allowing high-level access to low-level Verilog logic:
 ```
@@ -82,11 +82,16 @@ The accelerator is mapped to the CSR bus. The C firmware interacts with the hard
 mult_hw_params_a_write(a);
 mult_hw_params_b_write(b);
 uint32_t res = mult_hw_resultado_read();
-
-🛠 Future Work
+```
+## 🛠 Future Work
 
 [ ] Accelerator Expansion: implement an accelerator for a cryptographic or AI primitive.
+
 [ ] Interrupts (IRQ): Implement event-driven completion signals for the accelerator.
+
 [ ] Standalone Boot: Move the firmware to ROM to bypass the LiteX BIOS.
-[ ] DMA-driven data transfers
+
+[ ] DMA-driven data transfers.
+
 [ ] Modify the boot process to create a secure memory zone that cannot be accessed without privileges.
+
