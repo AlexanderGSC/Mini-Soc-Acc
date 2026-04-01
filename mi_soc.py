@@ -5,6 +5,8 @@ from litex.build.sim.config import SimConfig
 from litex.soc.integration.soc_core import SoCCore
 from litex.soc.integration.builder import Builder
 from litex.soc.interconnect.csr import *
+from litex.soc.integration.common import get_mem_data
+import numpy as np
 
 # -----------------------------------------------------------------------------
 # 1. IO - UART simulado
@@ -58,9 +60,15 @@ class MiSoC(SoCCore):
             uart_name            = "sim", 
             ident_version        = True,
             integrated_rom_size  = 0x8000,
+            cpu_reset_address    = 0x00000000, # Forzamos el reset a la ROM
             integrated_sram_size = 0x4000,
-            uart_fifo_depth      = 1,
         )
+        bin_data = np.fromfile("firmware/firmware.bin", dtype="uint32").tolist()
+        self.add_ram("main_ram", origin=0x40000000, size=0x10000, contents=bin_data)
+        self.add_constant("MAIN_RAM_NO_TEST")
+        self.add_constant("MAIN_RAM_NO_INIT")
+        #self.add_constant("ROM_BOOT_ADDRESS", 0x10000000)
+        #self.add_rom("bios", origin=0x00000000, size=0x8000, contents=list(open("demo.bin", "rb").read()))
         self.submodules.crg = CRG(platform.request("sys_clk"), platform.request("sys_rst"))
         self.add_constant("UART_POLLING")
         # Acelerador
