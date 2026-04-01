@@ -9,6 +9,27 @@ Development of a minimal RISC-V System on Chip (SoC) using LiteX, featuring a cu
 - **SRAM**: Stack memory (16KiB).
 - **Main RAM**: Firmware execution space at 0x40000000.
 - **Software Stack**: * Custom Linker Script + Bare-metal C firmware.
+```
+          ___________________________________________
+         |                LiteX SoC                  |
+         |   __________             ___________      |
+         |  |          |           |           |     |
+         |  | VexRiscv | <-------> |   SRAM    |     |
+         |  | (CPU)    |           | (16 KiB)  |     |
+         |  |__________|           |___________|     |
+         |       |                       |           |
+         |  _____V_______________________V_______    |
+         | |                                     |   |
+         | |        WISHBONE SYSTEM BUS          |   |
+         | |_____________________________________|   |
+         |       |                       |           |
+         |  _____V_____             _____V_____      |
+         | |           |           |  Custom   |     |
+         | |   UART    |           | Verilog   |     |
+         | | (Console) |           | Mult-Acc  |     |
+         | |___________|           |___________|     |
+         |___________________________________________|
+```
 
 ## 🛠️ Requirements
 - Python 3.x & LiteX
