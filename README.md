@@ -1,13 +1,15 @@
-# Mini-Soc-Acc
-Development of a minimal RISC-V System on Chip (SoC) using LiteX, featuring a custom computational accelerator written in Verilog. This project demonstrates the full hardware/software stack, from gateware generation to bare-metal C firmware development.
+## Mini-Soc-Acc
+Minimal RISC-V SoC experiment used to study hardware/software integration.
+Includes LiteX-based SoC generation, a simple Verilog accelerator, bare-metal firmware, CSR-based communication, and Verilator simulation.
+Memory layout is controlled via custom linker scripts.
 
-## 🚀 Features
+### System Overview
 - **CPU**: VexRiscv (RISC-V 32-bit).
 - **Interconnect**: Wishbone Bus.
 - **Accelerator**: Custom Verilog Multiplier (just PoC) integrated via CSRs.
-- **Simulation**: Verilator-based simulation with UART console support.
+- **Simulation**: Verilator with UART console.
 - **SRAM**: Stack memory (16KiB).
-- **Main RAM**: Firmware execution space at 0x40000000.
+- **Main RAM**: Firmware execution space at ```0x40000000```.
 - **Software Stack**: * Custom Linker Script + Bare-metal C firmware.
 ```
           ___________________________________________
@@ -31,12 +33,12 @@ Development of a minimal RISC-V System on Chip (SoC) using LiteX, featuring a cu
          |___________________________________________|
 ```
 
-## 🛠️ Requirements
+## Requirements
 - Python 3.x & LiteX
 - Verilator (for simulation)
 - RISC-V Toolchain
 
-## 📖 How to run
+## How to run
 1. Compile the Firmware
    Navigate to the firmware directory and compile the binary:
    ```bash
@@ -97,14 +99,13 @@ Result: 250 * 17 = 4250
 ```
 ## 🧠 Hardware/Software Co-Design
 
-The accelerator is mapped to the CSR bus. The C firmware interacts with the hardware using the generated csr.h headers, allowing high-level access to low-level Verilog logic:
-```
-// Example of hardware interaction in C
+The firmware interacts with the accelerator through LiteX-generated CSR registers:
+```C
 mult_hw_params_a_write(a);
 mult_hw_params_b_write(b);
 uint32_t res = mult_hw_resultado_read();
 ```
-## 🛠 Future Work
+### Future Work
 
 [ ] Accelerator Expansion: implement an accelerator for a cryptographic or AI primitive.
 
